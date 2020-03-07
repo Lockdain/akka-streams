@@ -24,7 +24,7 @@ object FirstPrinciples extends App {
   // flows - transform elements
   val flow = Flow[Int].map(x => x + 1)
   val sourceWithFlow = source.via(flow)
-  val flowWithSink = flow.to(sink)
+//  val flowWithSink = flow.to(sink)
 
   // combine them
 //  sourceWithFlow.to(sink).run() // prints 2 to 11
@@ -51,6 +51,11 @@ object FirstPrinciples extends App {
   val headSink = Sink.head[Int] // retrieves head and closes the stream
   val foldSink = Sink.fold[Int, Int](0)((a, b) => a + b)
 
+  // fold sink
+  val foldSource = Source[Int](1 to 10)
+  val foldTestSink = Sink.fold[Int, Int](0)(_ + _)
+//  foldSource.to(foldTestSink).run()
+
   // flows
   val mapFlow = Flow[Int].map(x => 2 * x)
   val takeFlow = Flow[Int].take(5) // only take the first five elements
@@ -59,7 +64,7 @@ object FirstPrinciples extends App {
 
   // source - flow - flow - sink
   val doubleFlowGraph = source.via(mapFlow).via(takeFlow).to(sink)
-  doubleFlowGraph.run()
+//  doubleFlowGraph.run()
 
   // sugar
   val mapSource = Source(1 to 10).map(x => 2 * x)
@@ -71,7 +76,7 @@ object FirstPrinciples extends App {
    * Create a stream that takes the names of persons, then keep the first two names
    * with length > 5 chars
    */
-  private val names = List("Alex", "John", "Daniel", "Jeremy", "Jonathan", "Matt")
+  val names = List("Alex", "John", "Daniel", "Jeremy", "Jonathan", "Matt")
   val namesSource = Source[String](names)
   val filterFlow = Flow[String].filter(name => name.length > 5)
   val takeTwoFlow = Flow[String].take(2)
