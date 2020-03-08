@@ -64,7 +64,7 @@ object FirstPrinciples extends App {
 
   // source - flow - flow - sink
   val doubleFlowGraph = source.via(mapFlow).via(takeFlow).to(sink)
-//  doubleFlowGraph.run()
+  doubleFlowGraph.run()
 
   // sugar
   val mapSource = Source(1 to 10).map(x => 2 * x)
